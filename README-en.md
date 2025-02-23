@@ -41,6 +41,7 @@ This image is based on linuxserver/baseimage-kasmvnc:ubuntunoble with Typora ins
   > The --cap-add and --security-opt parameters resolve namespace permission errors, from DeepSeek R1
 
   To support Chinese, you need to add several environment variables. The complete command is as follows. For other languages (such as Japanese and Korean), refer to [here](https://github.com/linuxserver/docker-baseimage-kasmvnc/tree/master?tab=readme-ov-file#language-support---internationalization).
+  
   ```bash
   docker create --name=typora \
       --cap-add=SYS_ADMIN \
@@ -48,12 +49,15 @@ This image is based on linuxserver/baseimage-kasmvnc:ubuntunoble with Typora ins
       --security-opt seccomp=unconfined \
       -p CUSTOM_PORT:3000 \
       -v CUSTOM_PATH:/config \
-      -e DOCKER_MODS="linuxserver/mods:universal-package-install" \
-      -e INSTALL_PACKAGES="fonts-noto-cjk" \
-      -e LC_ALL="zh_CN.UTF-8" \
+      -e DOCKER_MODS=linuxserver/mods:universal-package-install \
+      -e INSTALL_PACKAGES=fonts-noto-cjk \
+      -e LC_ALL=zh_CN.UTF-8 \
       --restart unless-stopped \
       orz2333/typora:latest
   ```
+  
+  When adding volumes other than `/config`, you must specify the PUID (User ID) and PGID (Group ID) of the user running the `docker create` command to avoid permission issues (documentation [here](https://github.com/linuxserver/docker-freecad?tab=readme-ov-file#user--group-identifiers)). Run the command `id $USER` to get the current user's UID and GID.
+  
   > Detailed environment variables: [linuxserver/docker-baseimage-kasmvnc](https://github.com/linuxserver/docker-baseimage-kasmvnc)
 
 - **Container Management**
@@ -68,11 +72,15 @@ This image is based on linuxserver/baseimage-kasmvnc:ubuntunoble with Typora ins
   docker rm typora
   
   # Remove image
-  docker rmi typora-zh
+  docker rmi typora
   ```
 
 ## Usage
 
 1. Access via browser: `IP:3000` (using your custom port)
-2. For local input method (e.g., Chinese IME):
-   - Sidebar → Settings → Enable Local Input Method
+
+2. For local input method (e.g., Chinese IME): Sidebar → Settings → Enable Local Input Method
+
+3. Use the top-right buttons to zoom or close the window
+
+4. Right-click the desktop to open xterm (terminal) or launch a new Typora instance

@@ -53,12 +53,14 @@
         --security-opt seccomp=unconfined \
         -p 自定义端口:3000 \
         -v 自定义路径:/config \
-        -e DOCKER_MODS="linuxserver/mods:universal-package-install" \
-        -e INSTALL_PACKAGES="fonts-noto-cjk" \
-        -e LC_ALL="zh_CN.UTF-8" \
+        -e DOCKER_MODS=linuxserver/mods:universal-package-install \
+        -e INSTALL_PACKAGES=fonts-noto-cjk \
+        -e LC_ALL=zh_CN.UTF-8 \
         --restart unless-stopped \
         orz2333/typora:latest
   ```
+
+  如果先要添加除了/config之外的volume，还需要指定PUID和PGID为运行`docker create`的用户，以避免出现权限不够无法访问的问题（说明在[这里](https://github.com/linuxserver/docker-freecad?tab=readme-ov-file#user--group-identifiers)）。运行命令`id $USER`可以获得当前用户的UID和GID
 
   > 环境变量的详细说明见[linuxserver/docker-baseimage-kasmvnc](https://github.com/linuxserver/docker-baseimage-kasmvnc/tree/master?tab=readme-ov-file#options)
 
@@ -85,7 +87,7 @@
 - 删除镜像
 
   ```bash
-  docker image typora-zh
+  docker image typora
   ```
 
 ## 使用说明
@@ -93,3 +95,7 @@
 - 在浏览器中访问ip:3000（即上面的“自定义端口”），即可使用typora
   
 - 若想要使用本地输入法（比如中文输入法），侧边工具栏=>设置=>启用本地输入法
+
+- typora可以通过右上角的按钮缩放和关闭
+
+- 右键桌面可以打开xterm（终端）或者新的typora
